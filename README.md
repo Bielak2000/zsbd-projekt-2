@@ -9,24 +9,51 @@ System bazodanowy zakład istnienie 3 kolekcji: user, product i order
   <table>
     <thead>
       <tr>
-        <th>words</th>
-        <th>transform to</th>
-        <th>keepUpperCase is false</th>
-        <th>keepUpperCase is true</th>
+        <th>Nazwa</th>
+        <th>Typ</th>
+        <th>Opis</th>
       </tr>
     </thead>
     <tbody>
         <tr>
-            <td>"XML HTTP request"</td>
-            <td>pascalCase</td>
-            <td><code>XmlHttpRequest</code></td>
-            <td><code>XMLHTTPRequest</code></td>
+            <td>_id</td>
+            <td>liczba</td>
+            <td>ID uzytkownika</td>
         </tr>
         <tr>
-            <td>"new customer ID"</td>
-            <td>camelCase</td>
-            <td><code>newCustomerId</code></td>
-            <td><code>newCustomerID</code></td>
+            <td>email</td>
+            <td>tekst</td>
+            <td>adres email uzytkownika</td>
+        </tr>
+        <tr>
+            <td>registered</td>
+            <td>data</td>
+            <td>data rejestracji</td>
+        </tr>
+        <tr>
+            <td>password</td>
+            <td>tekst</td>
+            <td>hasło</td>
+        </tr>
+        <tr>
+            <td>personal_date.name</td>
+            <td>tekst</td>
+            <td>imie uzytkownika</td>
+        </tr>
+        <tr>
+            <td>personal_date.surname</td>
+            <td>tekst</td>
+            <td>naziwsko uzytkownika</td>
+        </tr>
+        <tr>
+            <td>personal_date.address</td>
+            <td>tekst</td>
+            <td>adres uzytkownika</td>
+        </tr>
+        <tr>
+            <td>personal_date.phone_number</td>
+            <td>tekst</td>
+            <td>numer telefonu uzytkownika</td>
         </tr>
     </tbody>
   </table>
