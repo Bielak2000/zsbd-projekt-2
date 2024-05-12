@@ -152,5 +152,10 @@ Kolekcja zawierajaca zamowienia.
             <td>tekst</td>
             <td>status platnosci</td>
         </tr>
+        <tr>
+            <td>product_ids</td>
+            <td>tablica liczb</td>
+            <td>tablica z id-kami produktow zamowienia</td>
+        </tr>
     </tbody>
   </table>
