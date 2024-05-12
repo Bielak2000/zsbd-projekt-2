@@ -7,6 +7,6 @@ const orderCollection = 'order';
 use(database);
 
 // Create a new collections.
-db.createCollection(userCollection);
-db.createCollection(productCollection);
-db.createCollection(orderCollection);
+db.createCollection(userCollection, { autoIndexId: false });
+db.createCollection(productCollection, { autoIndexId: false });
+db.createCollection(orderCollection, { autoIndexId: false });
