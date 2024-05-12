@@ -61,7 +61,7 @@ Kolekcja zawierajaca uzytkownikow.
   </table>
 
 ## Product
-Kolekcja zawierajaca produkty - telefony
+Kolekcja zawierajaca produkty - telefony.
 
   <table>
     <thead>
@@ -106,6 +106,51 @@ Kolekcja zawierajaca produkty - telefony
             <td>device.photo</td>
             <td>tablica stringow</td>
             <td>url do zdjec</td>
+        </tr>
+    </tbody>
+  </table>
+
+## Order
+Kolekcja zawierajaca zamowienia.
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nazwa</th>
+        <th>Typ</th>
+        <th>Opis</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>_id</td>
+            <td>liczba</td>
+            <td>ID zamowienia</td>
+        </tr>
+        <tr>
+            <td>order_date</td>
+            <td>data</td>
+            <td>data zamowienia</td>
+        </tr>
+        <tr>
+            <td>total_price</td>
+            <td>liczba</td>
+            <td>koszt zamowienia</td>
+        </tr>
+        <tr>
+            <td>address</td>
+            <td>tekst</td>
+            <td>adres dostawy</td>
+        </tr>
+        <tr>
+            <td>order.status</td>
+            <td>tekst</td>
+            <td>status zamowienia</td>
+        </tr>
+        <tr>
+            <td>payment.status</td>
+            <td>tekst</td>
+            <td>status platnosci</td>
         </tr>
     </tbody>
   </table>
