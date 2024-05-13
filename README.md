@@ -3,7 +3,8 @@ W ramach przedmiotu Zawansowane architektury baz danych stworzony został system
 
 # Struktura danych
 
-System bazodanowy zakład istnienie 3 kolekcji: user, product i order
+System bazodanowy zakład istnienie 3 kolekcji: user, product i order.
+Przykladowe zapytania / agregacje znajduja sie w pliku /sample_queries/sample-queries.js
 
 ## User
 Kolekcja zawierajaca uzytkownikow.
@@ -126,6 +127,11 @@ Kolekcja zawierajaca zamowienia.
             <td>_id</td>
             <td>liczba</td>
             <td>ID zamowienia</td>
+        </tr>
+        <tr>
+            <td>client_id</td>
+            <td>liczba</td>
+            <td>ID klienta</td>
         </tr>
         <tr>
             <td>order_date</td>
