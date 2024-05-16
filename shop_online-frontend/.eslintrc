@@ -1,0 +1,233 @@
+{
+    "env": {
+        "browser": true,
+        "es2019": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:react-hooks/recommended",
+        "plugin:jsx-a11y/recommended",
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "sourceType": "module"
+    },
+    "plugins": ["@typescript-eslint", "simple-import-sort", "import"],
+    "root": true,
+    "rules": {
+        "curly": "warn",
+        "eqeqeq": ["error", "smart"],
+        "import/first": "warn",
+        "import/newline-after-import": "warn",
+        "import/no-duplicates": "warn",
+        "import/no-named-as-default-member": "warn",
+        "import/prefer-default-export": "off",
+        "import/no-default-export": "error",
+        "import/no-cycle": ["warn", { "ignoreExternal": true }],
+        "jsx-a11y/alt-text": [
+            "error",
+            {
+                "elements": ["img"],
+                "img": ["Image"]
+            }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            { "args": "none", "varsIgnorePattern": "(^_|React)" }
+        ],
+        "no-confusing-arrow": "warn",
+        "no-constructor-return": "warn",
+        "no-eval": "error",
+        "no-extend-native": "error",
+        "no-extra-semi": "off",
+        "no-implied-eval": "error",
+        "no-promise-executor-return": "warn",
+        "implicit-arrow-linebreak": ["warn", "beside"],
+        "no-restricted-imports": [
+            "error",
+            {
+                "paths": [
+                    {
+                        "name": "lodash",
+                        "importNames": ["default"],
+                        "message": "Please import a single lodash method, e.g. import { pick } from 'lodash', or single method package, e.g. import pick from 'lodash/pick'."
+                    }
+                ]
+            }
+        ],
+        "no-restricted-syntax": [
+            "warn",
+            "ForInStatement",
+            "LabeledStatement",
+            "WithStatement"
+        ],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "warn",
+        "no-unmodified-loop-condition": "warn",
+        "no-useless-concat": "warn",
+        "no-useless-return": "warn",
+        "prefer-arrow-callback": [
+            "warn",
+            {
+                "allowNamedFunctions": true
+            }
+        ],
+        "prefer-const": "warn",
+        "prefer-destructuring": "warn",
+        "react/destructuring-assignment": [
+            "warn",
+            "always",
+            {
+                "destructureInSignature": "always"
+            }
+        ],
+        "react/forbid-elements": [
+            "error",
+            {
+                "forbid": [
+                    {
+                        "element": "button",
+                        "message": "use <Button> instead"
+                    }
+                ]
+            }
+        ],
+        "react/jsx-boolean-value": "warn",
+        "react/jsx-curly-brace-presence": [
+            "warn",
+            {
+                "props": "never",
+                "children": "ignore",
+                "propElementValues": "always"
+            }
+        ],
+        "react/jsx-newline": [
+            "warn",
+            {
+                "prevent": true
+            }
+        ],
+        "react/jsx-no-constructed-context-values": "error",
+        "react/jsx-no-literals": [
+            "warn",
+            {
+                "noStrings": true,
+                "ignoreProps": true,
+                "allowedStrings": [
+                    " ",
+                    ",",
+                    ".",
+                    "*",
+                    "/",
+                    ":",
+                    "(",
+                    ")",
+                    "+",
+                    "-",
+                    "...",
+                    "&nbsp;",
+                    "):&nbsp;",
+                    "%"
+                ],
+                "noAttributeStrings": false
+            }
+        ],
+        "react/jsx-no-undef": "off",
+        "react/jsx-no-useless-fragment": [
+            "warn",
+            {
+                "allowExpressions": true
+            }
+        ],
+        "react/no-array-index-key": "error",
+        "react/no-multi-comp": "warn",
+        "react/no-object-type-as-default-prop": "error",
+        "react/prop-types": "off",
+        "react/void-dom-elements-no-children": "error",
+        "require-await": "warn",
+        "simple-import-sort/exports": "warn",
+        "simple-import-sort/imports": [
+            "warn",
+            {
+                "groups": [
+                    [
+                        // Side effect imports
+                        "^\\u0000",
+                        // Node.js builtins prefixed with `node:`
+                        "^node:",
+                        // Packages
+                        // `react` related packages come first.
+                        "^react",
+                        "^@?\\w",
+                        // Anything not matched in another group
+                        "^",
+                        // Relative imports
+                        // Relative to the project root
+                        "^~/.+",
+                        // Anything that starts with a dot
+                        "^\\.",
+                        // Style imports
+                        "^.+\\.css$",
+                        "^.+\\.styles$"
+                    ]
+                ]
+            }
+        ],
+        "yoda": [
+            "warn",
+            "never",
+            {
+                "exceptRange": true
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "extends": ["plugin:@typescript-eslint/recommended"],
+            "files": ["./**/*.{ts,tsx}"],
+            "rules": {
+                "@typescript-eslint/no-empty-interface": "off"
+            }
+        },
+        {
+            "files": [
+                "./app/**/*.tsx",
+                "./**/*.stories.tsx",
+                "./**/*.stories.ts"
+            ],
+            "rules": {
+                "react/no-multi-comp": "off"
+            }
+        },
+        {
+            "files": [
+                "./**/*.tsx",
+                "./**/*.stories.tsx",
+                "./**/*.stories.ts",
+                "./.storybook/**/*.ts",
+                "./.storybook/**/*.tsx",
+                "**/*.d.ts",
+                "./codegen.ts"
+            ],
+            "rules": {
+                "import/no-default-export": "off"
+            }
+        }
+    ],
+    "settings": {
+        "react": {
+            "version": "detect",
+            "linkComponents": [
+                {
+                    "name": "Link",
+                    "linkAttribute": "to"
+                }
+            ]
+        }
+    }
+}
