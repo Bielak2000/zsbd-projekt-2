@@ -22,46 +22,48 @@ db.product.find(
     { "availability": false }
 )
 
-// 6. Wyswietlenie najdrozszego i najtanszego produktu:
+// 6. Wyswietlenie najdrozszego produktu:
 db.product.find().sort({ "price": -1 }).limit(1);
+
+// 7. Wyswietlanie najtanszego produktu
 db.product.find().sort({ "price": 1 }).limit(1);
 
-// 7. Wyswietlenie zamowien z odrzuconymi platnosciami
+// 8. Wyswietlenie zamowien z odrzuconymi platnosciami
 db.order.find(
     { "payment_status": "rejected" }
 );
 
-// 8. Zmiana hasla usera
+// 9. Zmiana hasla usera
 db.user.updateOne(
     { _id: 1 },
     { $set: { password: "new hash passwor" } }
 );
 
-// 9. Wyswietlenie danych personalnych wszystkich userow
+// 10. Wyswietlenie danych personalnych wszystkich userow
 db.user.find({}, { "personal_data": 1, "_id": 0 });
 
-// 10. Zmiana numer telefonu uzytkownikowi
+// 11. Zmiana numer telefonu uzytkownikowi
 db.user.updateOne(
     { _id: 1 },
     { $set: { "personal_data.phone_number": "123456789" } }
 );
 
-// 11. Wyswietlenie wszystkich produktow bedaych telefonami
+// 12. Wyswietlenie wszystkich produktow bedaych telefonami
 db.product.find(
     { "type": "phone" }
 );
 
-// 12. Wyswietlenie wszystkich produktow bedaych samochodami
+// 13. Wyswietlenie wszystkich produktow bedaych samochodami
 db.product.find(
     { "type": "car" }
 );
 
-// 13. Wyswietlenie wszystkich produktow bedaych maszynami
+// 14. Wyswietlenie wszystkich produktow bedaych maszynami
 db.product.find(
     { "type": "machine" }
 );
 
-// 14. Wypisanie modelu, producentu i id produktu z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
+// 15. Wypisanie modelu, producentu i id produktu z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
 db.order.aggregate([
     // Rozłożenie tablicy product_ids na osobne dokumenty
     { $unwind: "$product_ids" },
@@ -107,7 +109,7 @@ db.order.aggregate([
     }
 ]);
 
-// 15. Wyswietl uzytkownika z najwieksza liczba zamowien:
+// 16. Wyswietl uzytkownika z najwieksza liczba zamowien:
 use('online_shop');
 
 db.user.aggregate([
@@ -143,7 +145,7 @@ db.user.aggregate([
     }
 ]);
 
-// 16. Wyswietl uzytkownika z najwieksza laczna wartoscia zamowien:
+// 17. Wyswietl uzytkownika z najwieksza laczna wartoscia zamowien:
 db.user.aggregate([
     // Dopasowanie uzytkowniko1w i zamoswien na podstawie identyfikatora klienta
     {
@@ -177,7 +179,7 @@ db.user.aggregate([
     }
 ])
 
-// 17. Wyswietlenie wszystkich uzytkownikow ktorzy maja w jakims zamowienie status platnosci rejected:
+// 18. Wyswietlenie wszystkich uzytkownikow ktorzy maja w jakims zamowienie status platnosci rejected:
 use('online_shop');
 
 db.user.aggregate([
@@ -220,7 +222,7 @@ db.user.aggregate([
     }    
 ])
 
-// 18. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
+// 19. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
 db.order.aggregate([
     // Dopasowanie zamowien i klientow na podstawie id klienta
     {
@@ -254,7 +256,7 @@ db.order.aggregate([
     }
 ])
 
-// 19. Zmiana produktu na niedostępny
+// 20. Zmiana produktu na niedostępny
 db.product.updateOne(
     { _id: 1 },
     { $set: { availability: false } }
