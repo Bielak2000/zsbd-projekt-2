@@ -1,5 +1,5 @@
 # Ogólne
-W ramach przedmiotu Zawansowane architektury baz danych stworzony został system bazodanowy do obsługi sklepu internetowego z telefonami w nierealcyjnej bazie danych MongoDB. Do celów prezentacyjnych zaimplementowany została również aplikacji webowa w języku TypeScript z wykorzystaniem frameworka React.
+W ramach przedmiotu Zawansowane architektury baz danych stworzony został system bazodanowy do obsługi sklepu internetowego z produktami w nierealcyjnej bazie danych MongoDB. Do celów prezentacyjnych zaimplementowany została również aplikacji webowa w języku TypeScript z wykorzystaniem frameworka React.
 
 # Struktura danych
 
@@ -62,7 +62,7 @@ Kolekcja zawierajaca uzytkownikow.
   </table>
 
 ## Product
-Kolekcja zawierajaca produkty - telefony.
+Kolekcja zawierajaca produkty - pokazanie tylko wspołnych kluczy.
 
   <table>
     <thead>
@@ -89,24 +89,9 @@ Kolekcja zawierajaca produkty - telefony.
             <td>dostepnosc produktu</td>
         </tr>
         <tr>
-            <td>device.producer</td>
+            <td>type</td>
             <td>tekst</td>
-            <td>producent telefonu</td>
-        </tr>
-        <tr>
-            <td>device.model</td>
-            <td>tekst</td>
-            <td>model telefonu</td>
-        </tr>
-        <tr>
-            <td>device.description</td>
-            <td>tekst</td>
-            <td>opis telefonu</td>
-        </tr>
-        <tr>
-            <td>device.photo</td>
-            <td>tablica stringow</td>
-            <td>url do zdjec</td>
+            <td>typ produktu</td>
         </tr>
     </tbody>
   </table>
