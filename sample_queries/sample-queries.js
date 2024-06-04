@@ -46,11 +46,26 @@ db.user.updateOne(
     { $set: { "personal_data.phone_number": "123456789" } }
 );
 
-// 11. Wypisanie modelu, producentu i id produktu z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien:
+// 11. Wyswietlenie wszystkich produktow bedaych telefonami
+db.product.find(
+    { "type": "phone" }
+);
+
+// 12. Wyswietlenie wszystkich produktow bedaych samochodami
+db.product.find(
+    { "type": "car" }
+);
+
+// 13. Wyswietlenie wszystkich produktow bedaych maszynami
+db.product.find(
+    { "type": "machine" }
+);
+
+// 14. Wypisanie modelu, producentu i id produktu z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
 db.order.aggregate([
-    // Rozklad tablicy product_ids na osobne dokumenty
+    // Rozłożenie tablicy product_ids na osobne dokumenty
     { $unwind: "$product_ids" },
-    // Polaczenie z kolekcja produktow aby miec wszystkie dane
+    // Połączenie z kolekcją produktów, aby mieć wszystkie dane
     {
         $lookup: {
             from: "product",
@@ -61,25 +76,27 @@ db.order.aggregate([
     },
     // Rozbicie danych na osobne dokumenty
     { $unwind: "$products" },
-    // Projektowanie wynikow
+    // Filtrowanie produktów o typie 'phone'
+    { $match: { "products.type": "phone" } },
+    // Projektowanie wyników
     {
         $project: {
             "_id": "$products._id",
             "model": "$products.device.model",
             "producer": "$products.device.producer",
-            "order_number": 1 // Liczymy wszystkie dokumenty więc liczba zamówień będzie rowna liczbie dokumentow
+            "order_number": 1 // Liczymy wszystkie dokumenty więc liczba zamówień będzie równa liczbie dokumentów
         }
     },
-    // Grupowanie wynikow na podstawie id produktu, modelu i producenta
+    // Grupowanie wyników na podstawie id produktu, modelu i producenta
     {
         $group: {
             "_id": { "_id": "$_id", "model": "$model", "producer": "$producer" },
-            "order_number": { $sum: 1 } // Sumowanie liczby zamowien dla każdego produktu
+            "order_number": { $sum: 1 } // Sumowanie liczby zamówień dla każdego produktu
         }
     },
-    // Sortowanie wynikow według liczby zamowien malejaco
+    // Sortowanie wyników według liczby zamówień malejąco
     { $sort: { "order_number": -1 } },
-    // Projektowanie wynikow koncowych
+    // Projektowanie wyników końcowych
     {
         $project: {
             "_id": "$_id._id",
@@ -90,7 +107,7 @@ db.order.aggregate([
     }
 ]);
 
-// 12. Wyswietl uzytkownika z najwieksza liczba zamowien:
+// 15. Wyswietl uzytkownika z najwieksza liczba zamowien:
 use('online_shop');
 
 db.user.aggregate([
@@ -126,7 +143,7 @@ db.user.aggregate([
     }
 ]);
 
-// 13. Wyswietl uzytkownika z najwieksza laczna wartoscia zamowien:
+// 16. Wyswietl uzytkownika z najwieksza laczna wartoscia zamowien:
 db.user.aggregate([
     // Dopasowanie uzytkowniko1w i zamoswien na podstawie identyfikatora klienta
     {
@@ -160,7 +177,7 @@ db.user.aggregate([
     }
 ])
 
-// 14. Wyswietlenie wszystkich uzytkownikow ktorzy maja w jakims zamowienie status platnosci rejected:
+// 17. Wyswietlenie wszystkich uzytkownikow ktorzy maja w jakims zamowienie status platnosci rejected:
 use('online_shop');
 
 db.user.aggregate([
@@ -203,7 +220,7 @@ db.user.aggregate([
     }    
 ])
 
-// 15. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
+// 18. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
 db.order.aggregate([
     // Dopasowanie zamowien i klientow na podstawie id klienta
     {
@@ -236,3 +253,9 @@ db.order.aggregate([
         }
     }
 ])
+
+// 19. Zmiana produktu na niedostępny
+db.product.updateOne(
+    { _id: 1 },
+    { $set: { availability: false } }
+);
