@@ -63,7 +63,7 @@ db.product.find(
     { "type": "machine" }
 );
 
-// 15. Wypisanie id produktów z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
+// 15. Wypisanie nazw produktów z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
 db.order.aggregate([
     // Rozłożenie tablicy products na osobne dokumenty
     { $unwind: "$products" },
@@ -72,22 +72,22 @@ db.order.aggregate([
     // Projektowanie wyników
     {
         $project: {
-            "_id": "$products.id",
+            "name": "$products.name",
             "order_number": { $literal: 1 } // Liczymy wszystkie dokumenty, więc liczba zamówień będzie równa liczbie dokumentów
         }
     },
-    // Grupowanie wyników na podstawie identyfikatora produktu
+    // Grupowanie wyników na podstawie nazwy produktu
     {
         $group: {
-            "_id": "$_id",
-            "order_number": { $sum: "$order_number" } // Sumowanie liczby zamówień dla każdego produktu
+            "_id": "$name", // Grupujemy po nazwie produktu
+            "order_number": { $sum: "$order_number" } // Sumowanie liczby zamówień dla każdej nazwy produktu
         }
     },
     // Sortowanie wyników według liczby zamówień malejąco
     { $sort: { "order_number": -1 } }
 ]);
 
-// 16. Na podstawie zapytania 15 - wyszukuje dane odnsnie tych produktow w kolekcji product
+// 16. Na podstawie zapytania 15 ale z id - wyszukuje dane odnosnie tych produktow w kolekcji product
 db.order.aggregate([
     // Rozłożenie tablicy products na osobne dokumenty
     { $unwind: "$products" },
