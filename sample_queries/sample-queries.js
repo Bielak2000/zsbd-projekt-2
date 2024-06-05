@@ -63,7 +63,7 @@ db.product.find(
     { "type": "machine" }
 );
 
-// 15. Wypisanie nazwy i id produktu z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
+// 15. Wypisanie id produktów z liczbą jego zamówień posortowane w dół wzgledem liczby zamowien telefonow:
 db.order.aggregate([
     // Rozłożenie tablicy products na osobne dokumenty
     { $unwind: "$products" },
@@ -73,33 +73,70 @@ db.order.aggregate([
     {
         $project: {
             "_id": "$products.id",
-            "name": "$products.name",
             "order_number": { $literal: 1 } // Liczymy wszystkie dokumenty, więc liczba zamówień będzie równa liczbie dokumentów
         }
     },
-    // Grupowanie wyników na podstawie id produktu i nazwy
+    // Grupowanie wyników na podstawie identyfikatora produktu
     {
         $group: {
-            "_id": { "_id": "$_id"},
+            "_id": "$_id",
             "order_number": { $sum: "$order_number" } // Sumowanie liczby zamówień dla każdego produktu
         }
     },
     // Sortowanie wyników według liczby zamówień malejąco
-    { $sort: { "order_number": -1 } },
+    { $sort: { "order_number": -1 } }
+]);
+
+// 16. Na podstawie zapytania 15 - wyszukuje dane odnsnie tych produktow w kolekcji product
+db.order.aggregate([
+    // Rozłożenie tablicy products na osobne dokumenty
+    { $unwind: "$products" },
+    // Filtrowanie produktów o typie 'phone'
+    { $match: { "products.type": "phone" } },
+    // Łączenie z kolekcją product na podstawie products.id
+    {
+        $lookup: {
+            from: "product",
+            localField: "products.id",
+            foreignField: "_id",
+            as: "productDetails"
+        }
+    },
+    // Rozłożenie tablicy productDetails na osobne dokumenty
+    { $unwind: "$productDetails" },
+    // Dodatkowe sprawdzenie, czy productDetails ma odpowiedni typ 'phone'
+    { $match: { "productDetails.type": "phone" } },
+    // Projektowanie wyników
+    {
+        $project: {
+            "_id": "$productDetails._id",
+            "name": "$productDetails.device.model",
+            "producer": "$productDetails.device.producer",
+            "order_number": { $literal: 1 } // Liczymy wszystkie dokumenty, więc liczba zamówień będzie równa liczbie dokumentów
+        }
+    },
+    // Grupowanie wyników na podstawie id produktu, modelu i producenta
+    {
+        $group: {
+            "_id": { "_id": "$_id", "name": "$name", "producer": "$producer" },
+            "order_number": { $sum: "$order_number" } // Sumowanie liczby zamówień dla każdego produktu
+        }
+    },
     // Projektowanie wyników końcowych
     {
         $project: {
             "_id": "$_id._id",
+            "name": "$_id.name",
+            "producer": "$_id.producer",
             "order_number": 1
         }
-    }
+    },
+    // Sortowanie wyników według liczby zamówień malejąco
+    { $sort: { "order_number": -1 } }
 ]);
 
-// 16. Wyswietl uzytkownika z najwieksza liczba zamowien:
+// 17. Wyswietl uzytkownika z najwieksza liczba zamowien:
 use('online_shop');
-
-use('online_shop');
-
 db.user.aggregate([
     // Wybor użytkowników i zamówień na podstawie id klienta
     {
@@ -134,14 +171,14 @@ db.user.aggregate([
 ]);
 
 
-// 17. Wyswietl uzytkownika z najwieksza laczna wartoscia zamowien:
+// 18. Wyswietl uzytkownika z najwieksza laczna wartoscia zamowien:
 db.user.aggregate([
     // Dopasowanie uzytkowniko1w i zamoswien na podstawie identyfikatora klienta
     {
         $lookup: {
             from: "order",
             localField: "_id",
-            foreignField: "client_id",
+            foreignField: "client.id",
             as: "orders"
         }
     },
@@ -168,7 +205,7 @@ db.user.aggregate([
     }
 ])
 
-// 18. Wyswietlenie wszystkich uzytkownikow ktorzy maja w jakims zamowienie status platnosci rejected:
+// 19. Wyswietlenie wszystkich uzytkownikow ktorzy maja w jakims zamowienie status platnosci rejected:
 use('online_shop');
 
 db.user.aggregate([
@@ -177,7 +214,7 @@ db.user.aggregate([
         $lookup: {
             from: "order",
             localField: "_id",
-            foreignField: "client_id",
+            foreignField: "client.id",
             as: "orders"
         }
     },
@@ -211,13 +248,13 @@ db.user.aggregate([
     }    
 ])
 
-// 19. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
+// 20. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
 db.order.aggregate([
     // Dopasowanie zamowien i klientow na podstawie id klienta
     {
         $lookup: {
             from: "user",
-            localField: "client_id",
+            localField: "client.id",
             foreignField: "_id",
             as: "users"
         }
@@ -245,7 +282,7 @@ db.order.aggregate([
     }
 ])
 
-// 20. Zmiana produktu na niedostępny
+// 21. Zmiana produktu na niedostępny
 db.product.updateOne(
     { _id: 1 },
     { $set: { availability: false } }
