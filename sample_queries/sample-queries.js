@@ -69,7 +69,7 @@ db.order.aggregate([
     { $unwind: "$products" },
     // Filtrowanie produktów o typie 'phone'
     { $match: { "products.type": "phone" } },
-    // Projektowanie wyników
+    // Rzutowanie wyników
     {
         $project: {
             "_id": "$products.id",
@@ -106,7 +106,7 @@ db.order.aggregate([
     { $unwind: "$productDetails" },
     // Dodatkowe sprawdzenie, czy productDetails ma odpowiedni typ 'phone'
     { $match: { "productDetails.type": "phone" } },
-    // Projektowanie wyników
+    // Rzutowanie wyników
     {
         $project: {
             "_id": "$productDetails._id",
@@ -122,7 +122,7 @@ db.order.aggregate([
             "order_number": { $sum: "$order_number" } // Sumowanie liczby zamówień dla każdego produktu
         }
     },
-    // Projektowanie wyników końcowych
+    // Rzutowanie wyników końcowych
     {
         $project: {
             "_id": "$_id._id",
@@ -157,7 +157,7 @@ db.user.aggregate([
     { $sort: { "num_orders": -1 } },
     // Limit wyników do jednego dokumentu (użytkownik z największą liczbą zamówień)
     { $limit: 1 },
-    // Projektowanie wyników, aby zawierały tylko potrzebne pola
+    // Rzutowanie wyników, aby zawierały tylko potrzebne pola
     {
         $project: {
             "_id": 1,
@@ -192,7 +192,7 @@ db.user.aggregate([
     { $sort: { "total_price": -1 } },
     // Limit wynikow do jednego dokumentu (użytkownik z najwiksza suma cen zamowien)
     { $limit: 1 },
-    // Projektowanie wynikow aby zawieraly tylko potrzebne pola
+    // Rzutowanie wynikow aby zawieraly tylko potrzebne pola
     {
         $project: {
             "_id": 1,
@@ -226,7 +226,7 @@ db.user.aggregate([
             "orders.payment_status": "rejected"
         }
     },
-    // Projektowanie wynikow aby zawieraly tylko informacje o uzytkownikach
+    // Rzutowanie wynikow aby zawieraly tylko informacje o uzytkownikach
     {
         $project: {
             "_id": 1,
@@ -245,7 +245,7 @@ db.user.aggregate([
             "password": { $first: "$password" },
             "personal_data": { $first: "$personal_data" }
         }
-    }    
+    }
 ])
 
 // 20. Wyswietlenie zamowien gdzie adres dostawy jest inny niz adres uzytkownika
@@ -267,7 +267,7 @@ db.order.aggregate([
             "address": { $ne: "$users.personal_data.address" }
         }
     },
-    // Projektowanie wynikow, aby zawieraly tylko informacje o zamowieniach
+    // Rzutowanie wynikow, aby zawieraly tylko informacje o zamowieniach
     {
         $project: {
             "_id": 1,

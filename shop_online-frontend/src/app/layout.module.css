@@ -1,0 +1,14 @@
+.logo {
+    width: calc(100% - 2 * 12px);
+    margin: 12px;
+    height: auto;
+}
+
+.sider {
+    height: 100dvh;
+}
+
+.content {
+    max-height: 100dvh;
+    overflow-y: auto;
+}
