@@ -2,6 +2,7 @@ import { getDatabase } from '~/lib/db';
 import { UsersTable } from './UsersTable';
 import { revalidatePath } from 'next/cache';
 import dayjs from 'dayjs';
+import { objectIdOrNumber } from '~/utils/objectIdOrNumber';
 
 const pageSize = 15;
 
@@ -22,7 +23,9 @@ export default async function UsersPage({
                 {},
                 {
                     projection: {
-                        _id: true,
+                        _id: {
+                            $toString: '$_id',
+                        },
                         registered: {
                             $dateFromString: {
                                 dateString: '$registered',
@@ -51,7 +54,7 @@ export default async function UsersPage({
 
                 const db = await getDatabase();
 
-                await db.users.deleteOne({ _id: id });
+                await db.users.deleteOne({ _id: objectIdOrNumber(id) });
                 revalidatePath('/users');
             }}
             onUserUpdate={async (id: any, formData: any) => {
@@ -60,7 +63,7 @@ export default async function UsersPage({
                 const db = await getDatabase();
 
                 await db.users.updateOne(
-                    { _id: id },
+                    { _id: objectIdOrNumber(id) },
                     {
                         $set: {
                             email: formData.email,
