@@ -1,0 +1,15 @@
+.paymentStatusNew {
+    color: #dbb301;
+}
+
+.paymentStatusCompleted {
+    color: #01b401;
+}
+
+.paymentStatusRejected {
+    color: #da0202;
+}
+
+.paymentStatusInProgress {
+    color: #888;
+}

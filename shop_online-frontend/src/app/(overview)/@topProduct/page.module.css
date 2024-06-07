@@ -1,0 +1,11 @@
+.phoneData {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-auto-rows: auto;
+    column-gap: 12px;
+}
+
+.phoneData div:nth-child(2n+1) {
+    justify-self: end;
+    color: #999;
+}

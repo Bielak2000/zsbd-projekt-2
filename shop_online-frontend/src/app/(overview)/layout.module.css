@@ -1,0 +1,28 @@
+.root {
+    display: grid;
+    gap: 8px;
+    grid-template-rows: auto auto;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template:
+        'topProduct topUserCount topUserValue'
+        'rejected rejected rejected'
+    ;
+
+    padding: 8px;
+}
+
+.rejectedPayments {
+    grid-area: rejected;
+}
+
+.topProduct {
+    grid-area: topProduct;
+}
+
+.topUserByOrderCount {
+    grid-area: topUserCount;
+}
+
+.topUserByOrderValue {
+    grid-area: topUserValue;
+}
