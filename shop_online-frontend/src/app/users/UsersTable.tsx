@@ -6,9 +6,9 @@ import React from 'react';
 
 interface UsersTableProps {
     data: any[];
-    pageSize: number;
-    currentPage: number;
-    total: number;
+    pageSize?: number;
+    currentPage?: number;
+    total?: number;
 }
 
 export const UsersTable: React.FC<UsersTableProps> = ({
@@ -45,21 +45,27 @@ export const UsersTable: React.FC<UsersTableProps> = ({
             },
         ]}
         rowKey={({ _id }) => _id}
-        pagination={{
-            pageSize,
-            current: currentPage,
-            total,
-            showSizeChanger: false,
-            itemRender: (page, _, element) => (
-                <Link
-                    href={`?page=${page}`}
-                    legacyBehavior
-                >
-                    {element}
-                </Link>
-            ),
-            position: ['bottomCenter'],
-        }}
+        pagination={
+            currentPage !== undefined &&
+            total !== undefined &&
+            pageSize !== undefined
+                ? {
+                      pageSize,
+                      current: currentPage,
+                      total,
+                      showSizeChanger: false,
+                      itemRender: (page, _, element) => (
+                          <Link
+                              href={`?page=${page}`}
+                              legacyBehavior
+                          >
+                              {element}
+                          </Link>
+                      ),
+                      position: ['bottomCenter'],
+                  }
+                : undefined
+        }
         dataSource={data}
     />
 );
