@@ -1,5 +1,7 @@
 import { getDatabase } from '~/lib/db';
 import { UsersTable } from './UsersTable';
+import { revalidatePath } from 'next/cache';
+import dayjs from 'dayjs';
 
 const pageSize = 15;
 
@@ -16,7 +18,22 @@ export default async function UsersPage({
 
     const [users, total] = await Promise.all([
         db.users
-            .find({}, { projection: { password: false } })
+            .find(
+                {},
+                {
+                    projection: {
+                        _id: true,
+                        registered: {
+                            $dateFromString: {
+                                dateString: '$registered',
+                            },
+                        },
+                        email: true,
+                        personal_data: true,
+                    },
+                },
+            )
+            .sort('registered', 'descending')
             .skip((+page - 1) * pageSize)
             .limit(pageSize)
             .toArray(),
@@ -29,6 +46,53 @@ export default async function UsersPage({
             currentPage={+page}
             pageSize={pageSize}
             total={total}
+            onUserDelete={async (id: any) => {
+                'use server';
+
+                const db = await getDatabase();
+
+                await db.users.deleteOne({ _id: id });
+                revalidatePath('/users');
+            }}
+            onUserUpdate={async (id: any, formData: any) => {
+                'use server';
+
+                const db = await getDatabase();
+
+                await db.users.updateOne(
+                    { _id: id },
+                    {
+                        $set: {
+                            email: formData.email,
+                            personal_data: {
+                                name: formData.name,
+                                surname: formData.surname,
+                                address: formData.address,
+                                phone_number: formData.phone,
+                            },
+                        },
+                    },
+                );
+                revalidatePath('/users');
+            }}
+            onUserCreate={async formData => {
+                'use server';
+
+                const db = await getDatabase();
+
+                await db.users.insertOne({
+                    email: formData.email,
+                    password: formData.password,
+                    registered: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+                    personal_data: {
+                        name: formData.name,
+                        surname: formData.surname,
+                        address: formData.address,
+                        phone_number: formData.phone,
+                    },
+                });
+                revalidatePath('/users');
+            }}
         />
     );
 }
